@@ -6,7 +6,7 @@ vec2 fade(vec2 t)
 }
 
 vec4 permute(vec4 x) {
-    return mod(((x*34.0)+1.0)*x, 289.0);
+    return mod(((x*54.0)+1.0)*x, 289.0);
 }
 
 float cnoise(vec2 P)
@@ -19,7 +19,7 @@ float cnoise(vec2 P)
     vec4 fx = Pf.xzxz;
     vec4 fy = Pf.yyww;
     vec4 i = permute(permute(ix) + iy);
-    vec4 gx = 3.0 * fract(i * 0.0243902439) - 1.0; // 1/41 = 0.024...
+    vec4 gx = 1.0 * fract(i * 0.0243902439) - 1.0; // 1/41 = 0.024...
     vec4 gy = abs(gx) - 0.5;
     vec4 tx = floor(gx + 0.5);
     gx = gx - tx;
@@ -39,19 +39,19 @@ float cnoise(vec2 P)
     vec2 fade_xy = fade(Pf.xy);
     vec2 n_x = mix(vec2(n00, n01), vec2(n10, n11), fade_xy.x);
     float n_xy = mix(n_x.x, n_x.y, fade_xy.y);
-    return 5.0 * n_xy;
+    return 1.0 * n_xy;
 }
 
 void main() {
     vec2 wavedUv = vec2(
         vUv.x,
-        vUv.y + sin(vUv.x * 1.0) * 2.0
+        vUv.y + sin(vUv.x * 3.0) * 1.0
     );
     
-    float strength = step(0.9, sin(cnoise(vUv * 3.0) * 10.5));
+    float strength = step(0.9, sin(cnoise(vUv * 2.0) * 20.0));
 
     vec3 blackColor = vec3(0.1);
     vec3 uvColor = vec3(wavedUv, blackColor);
     vec3 mixedColor = mix(blackColor, uvColor, strength);
-    gl_FragColor = vec4(mixedColor, 3.0);
+    gl_FragColor = vec4(mixedColor, 1.0);
 }
