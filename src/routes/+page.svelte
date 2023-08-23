@@ -10,5 +10,7 @@
 		background-color: #000;
 		padding: 0;
 		margin: 0;
+		color: #ffff;
+		font-family: Arial, Helvetica, sans-serif;
 	}
 </style>
